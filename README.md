@@ -1,2 +1,12 @@
-# SpeedDialAngular
-This is demo application designed using angular1 for simulating Speed Dial feature in AdminUI.
+# speed-dial
+
+This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
+version 0.16.0.
+
+## Build & development
+
+Run `grunt` for building and `grunt serve` for preview.
+
+## Testing
+
+Running `grunt test` will run the unit tests with karma.
