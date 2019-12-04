@@ -1,0 +1,191 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 text-right top-panel">
+                <button type="button" data-target="#addSpeedDial" data-toggle="modal" class="btn btn-primary" >
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add speed dial
+                </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3 col-sm-3 col-md-3 col-xs-3 filters-box">
+            <h5>Departments : {{department}}</h5>
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle filters-btn" type="button" data-toggle="dropdown">Select Department
+                <span class="caret"></span></button>
+                <ul class="dropdown-menu department-menu">
+                  <li ng-click="changeDepartment('ALL')">All</li>
+                  <li ng-click="changeDepartment(value)" ng-repeat="(key, value) in departments">
+                      {{value.departmentName}}
+                      ({{value.departmentId}})
+                  </li>
+                </ul>
+            </div>
+            <h5>Room Types : {{roomType}}</h5>
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle filters-btn" type="button" data-toggle="dropdown">Select Room Type
+                <span class="caret"></span></button>
+                <ul class="dropdown-menu department-menu">
+                    <li ng-click="changeRoomType(value)" ng-repeat="(key, value) in locationTypes">
+                        {{value.name}}
+                    </li>
+                </ul>
+            </div>
+            <h5>Locales : {{locale}}</h5>
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle filters-btn" type="button" data-toggle="dropdown">Select Locale
+                <span class="caret"></span></button>
+                <ul class="dropdown-menu department-menu">
+                    <li ng-click="changeLocale('ALL')">All</li>
+                    <li ng-click="changeLocale(value)" ng-repeat="(key, value) in locales">
+                        {{value.name}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-8 col-sm-7 col-md-7 col-xs-7">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Number</th>
+                            <th>Name</th>
+                            <th>Phone Number</th>
+                            <th>Resolution</th>
+                            <th>Departments</th>
+                            <th>Room Types</th>
+                            <th>Locales</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="speeddials.length == 0">
+                           <td colspan="9" class="no-records">
+                                No speed dial entry/entrires found.
+                           </td> 
+                        </tr>
+                        <span ng-if="speeddials.length > 0">
+                            <tr ng-repeat="(key, value) in speeddials">
+                                <td>{{value.speeddialNo}}</td>
+                                <td>{{value.entityName}}</td>
+                                <td>{{value.contactNo}}</td>
+                                <td>{{value.callSettings.resolution}}</td>
+                                <td>
+                                    <span ng-repeat="(key, deptName) in value.departments">
+                                        {{deptName}},
+                                    </span>
+                                </td>
+                                <td>
+                                    <span ng-repeat="(key, rType) in value.roomTypes">
+                                        {{rType}},
+                                    </span>
+                                </td>
+                                <td>
+                                    <span ng-repeat="(key, loc) in value.locales">
+                                        {{loc}},
+                                    </span>
+                                </td>
+                                <td class="actions speed-dial-actions">
+                                    <button ng-click="edit(key, value)" class="btn btn-primary">
+                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                    </button>
+                                    <button ng-click="delete(key, value)" class="btn btn-danger" data-target="#deleteConfirmation" data-toggle="modal">
+                                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </span>
+                    </tbody>
+                </table>
+        </div>
+    </div>  
+</div>
+
+<!-- Modal -->
+<div id="addSpeedDial" class="modal fade" role="dialog">
+    <div class="modal-dialog">    
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add speed dial entry.</h4>
+            </div>
+            <div class="modal-body">
+                <span class="row">
+                    <span class="col-lg-4 form-lable">Number :</span>
+                    <select class="col-lg-5 input-field" ng-model="speedDialNumber">
+                        <option ng-repeat="(key, number) in speedDialNumbers">{{number}}</option>
+                    </select>
+                </span>
+                <span class="row">
+                    <span class="col-lg-4 form-lable">Name :</span>
+                    <input type="text" class="col-lg-5 input-field" ng-model="speedDialName"/>
+                </span>
+                <span class="row">
+                    <span class="col-lg-4 form-lable">Phone number :</span>
+                    <input type="text" class="col-lg-5 input-field" ng-model="speedDialPhoneNumber"/>
+                </span>
+                <span class="row">
+                    <span class="col-lg-4 form-lable">Resolution :</span>
+                    <select class="col-lg-5 input-field" ng-model="speedDialResolution">
+                        <option value={{value.size}} ng-repeat="(key, value) in resolution">
+                            {{value.name}}
+                            ({{value.size}})
+                        </option>
+                    </select>
+                </span>
+                <span class="row">
+                    <span class="col-lg-4 form-lable">Departments :</span>
+                    <select class="col-lg-5 input-field" ng-model="speedDialDepartment" multiple size=2>
+                        <option value="ALL">All</option>
+                        <option value={{value.departmentId}} ng-repeat="(key, value) in departments">
+                            {{value.departmentName}}
+                            ({{value.departmentId}})
+                        </option>
+                    </select>
+                </span>
+                <span class="row">
+                    <span class="col-lg-4 form-lable">Room Types :</span>
+                    <select class="col-lg-5 input-field" ng-model="speedDialRoomType" multiple size=2>
+                        <option value={{value.id}} ng-repeat="(key, value) in locationTypes">
+                            {{value.name}}
+                        </option>
+                    </select>
+                </span>
+                <span class="row">
+                    <span class="col-lg-4 form-lable">Locales :</span>
+                    <select class="col-lg-5 input-field" ng-model="speedDialLocale" multiple size=2>
+                        <option value="ALL">All</option>
+                        <option value={{value.code}} ng-repeat="(key, value) in locales">
+                            {{value.name}}
+                        </option>
+                    </select>
+                </span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" ng-click="save()" data-dismiss="modal">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteConfirmation" role="dialog">
+    <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Confirmation</h4>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to delete ?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" ng-click="deleteRecord()"  class="btn btn-danger" data-dismiss="modal">Delete</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancle</button>
+        </div>
+    </div>
+    
+    </div>
+</div>

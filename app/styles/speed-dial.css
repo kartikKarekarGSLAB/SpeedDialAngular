@@ -1,0 +1,60 @@
+body {
+    background:aliceblue ;
+}
+.filters-box {
+    background: aliceblue;
+    padding: 2%;
+    border-radius: 7%;
+    margin-left: 3%;
+    margin-bottom: 3%;
+    border: 1px solid #337ab7;
+}
+
+.filters-btn {
+    margin: 3%;
+    width: 92%;
+}
+
+.department-menu > li {
+    padding: 3%;
+}
+
+.department-menu > li:hover{
+    padding: 3%;
+    border: 1px solid cadetblue;
+    background-color: aliceblue;
+}
+
+table > tr,td {
+    background:aliceblue ;
+    border: 1px solid #337ab7 !important;
+}
+thead {
+    background: #337ab7;
+}
+
+.no-records {
+    text-align: center;
+}
+
+.top-panel {
+    padding: 8px;
+    background-color: aliceblue;
+    margin-bottom: 8px;
+    border: 1px solid #337ab7;
+}
+
+.form-lable {
+    font-size: medium;
+    font-weight: bold;
+}
+
+.input-field {
+    font-size: medium;
+    width: 50% !important;
+}
+
+.speed-dial-actions {
+    width: 13%;
+    text-align: center;
+}
