@@ -1,0 +1,32 @@
+{
+    "add speeddial" : "Add speed dial",
+    "departments" : "Departments",
+    "room type" : "Room Types",
+    "number" : "Number",
+    "name" : "Name",
+    "phone number" : "Phone Number",
+    "resolution" : "Resolution",
+    "locales" : "Locales",
+    "action" : "Action",
+    
+    "select Department" : "Select Department",
+    "select Room Type" : "Select Room Type",
+    "select Locale" : "Select Locale",
+    
+    "records not found" : "No speed dial entry/entrires found.",
+
+    "add-speeddial" : {
+        "title" : "Add speed dial entry",
+        "save" : "Save",
+        "close" : "Close"
+    },
+    
+    "delete-confirm" : {
+        "title" : "Confirmation",
+        "message" : "Are you sure you want to delete ?",
+        "delete" : "Delete",
+        "cancle" : "Cancle"
+
+    }
+
+}

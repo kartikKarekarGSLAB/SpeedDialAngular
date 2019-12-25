@@ -8,8 +8,9 @@
  * Controller of the speedDialApp
  */
 angular.module('speedDialApp')
-.controller('SpeedDialCtrl', function ($scope, $http) {
+.controller('SpeedDialCtrl',["$scope", "$http", "speedDialService", "CONSTANT", function ($scope, $http, speedDialService , CONSTANT) {
   
+  speedDialService.setLocales();
   //Fields required in add speed dial entry.
   $scope.speedDialNumber = '';
   $scope.speedDialName = '';
@@ -38,11 +39,18 @@ angular.module('speedDialApp')
          "resolution":$scope.speedDialResolution
       }
    };
+
+   var requestConfig = {
+    headers: {
+      'Access-Control-Allow-Origin':'*'
+    }
+   };
+
    console.log(JSON.stringify(requestData));
-    // var addSpeedDialEntryURL = 'http://pcstaci04.ec.stagrp.com:7073/speeddial/phone/speeddial';
-    // $http.post(addSpeedDialEntryURL, JSON.stringify(requestData)).then(function(response) {
-    //     alert('Speed Dial Entry added!!');
-    // });
+    var addSpeedDialEntryURL = 'http://pcstaci04.ec.stagrp.com:7073/speeddial/phone/speeddial';
+    $http.post(addSpeedDialEntryURL, JSON.stringify(requestData), requestConfig).then(function(response) {
+        alert('Speed Dial Entry added!!');
+    });
   };
 
   $scope.speeddials = [];
@@ -69,12 +77,12 @@ angular.module('speedDialApp')
 
 
     // Set Department's list.
-    $http.get('http://localhost:8080/mes/departments').then(function(response) {
+    $http.get(CONSTANT.MES_HOST + CONSTANT.DEPARTMENT).then(function(response) {
             $scope.departments = response.data.payloadList;
     });
 
     // Set room types list.
-    $http.get('http://localhost:8080/mes/locations/types').then(function(response) {
+    $http.get(CONSTANT.MES_HOST + CONSTANT.LOCATION_TYPE).then(function(response) {
       response.data.payload.locationTypes.forEach((element) => {
         var name = element.split('_');
         name = name[0].charAt(0).toUpperCase() + name[0].slice(1).toLowerCase() + ' ' + name[1].charAt(0).toUpperCase() + name[1].slice(1).toLowerCase();
@@ -83,14 +91,14 @@ angular.module('speedDialApp')
     });
 
     // Set locales list.
-    $http.get('http://localhost:8080/mes/locales').then(function(response) {
+    $http.get(CONSTANT.MES_HOST + CONSTANT.LOCALES).then(function(response) {
             $scope.locales = response.data.payloadList;
     });
 
     // Set All list of Speed Dial Entry.
     //pcstaci04.ec.stagrp.com
     
-    $http.get('http://localhost:7073/speeddial/phone/speeddial').then(function(response) {
+    $http.get(CONSTANT.SPEED_DIAL_HOST + CONSTANT.SPEEDDIAL).then(function(response) {
       $scope.speeddials = response.data.payloadList;
     });
 
@@ -112,7 +120,7 @@ angular.module('speedDialApp')
           "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
         }
       };
-      var deleteURL = 'http://localhost:7073/speeddial/phone/speeddial/' + $scope.deleteSpeedDialKey;
+      var deleteURL = CONSTANT.SPEED_DIAL_HOST + CONSTANT.SPEEDDIAL + '/' + $scope.deleteSpeedDialKey;
       $http.delete(deleteURL, config).then(function () {
         console.log('Record deleted !!');
         // This function handles success
@@ -153,10 +161,10 @@ angular.module('speedDialApp')
     };
 
     $scope.reload = function(unitId, roomType, locale) {
-      var filterURL = 'http://pcstaci04.ec.stagrp.com:7073/speeddial/phone/speeddial?unitId='+unitId+'&roomType='+roomType+'&locale='+locale+'&includes=config';
+      var filterURL = CONSTANT.SPEED_DIAL_HOST + CONSTANT.SPEEDDIAL + '?unitId='+unitId+'&roomType='+roomType+'&locale='+locale+'&includes=config';
       $http.get(filterURL).then(function(response) {
         $scope.speeddials = response.data.payloadList;
       });
     };
 
-  });
+  }]);

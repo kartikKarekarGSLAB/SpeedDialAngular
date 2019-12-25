@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-angular
+var speedDial = angular
   .module('speedDialApp', [
     'ngAnimate',
     'ngAria',
@@ -17,9 +17,10 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'pascalprecht.translate'
   ])
-  .config(function ($routeProvider) {
+  .config(["$routeProvider", "$translateProvider", function ($routeProvider, $translateProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/speed_dial.html',
@@ -29,4 +30,22 @@ angular
       .otherwise({
         redirectTo: '/'
       });
-  });
+
+      $translateProvider
+        .useStaticFilesLoader({
+            prefix: '/translations/',
+            suffix: '.json'
+        })
+        .preferredLanguage('en_US')
+        .useSanitizeValueStrategy('escape');
+
+  }]);
+  
+speedDial.constant("CONSTANT", {
+    "MES_HOST": "http://localhost:8080/mes",
+    "SPEED_DIAL_HOST": "http://localhost:7073/speeddial",
+    "DEPARTMENT" : "/departments",
+    "LOCATION_TYPE" : "/locations/types",
+    "LOCALES" : "/locales",
+    "SPEEDDIAL" : "/phone/speeddial"
+});
